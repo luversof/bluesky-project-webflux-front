@@ -4,6 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import axios from 'axios'
+
+import VueSSE from 'vue-sse'
+
+Vue.prototype.$http = axios
+
+Vue.use(VueSSE)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
