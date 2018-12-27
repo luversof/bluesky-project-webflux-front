@@ -5,6 +5,9 @@
     <button @click="getNotification">호출</button>
 
     <p v-for="message in messages" :key="message.idString">{{ message.message }}</p>
+    <br>보낼 메세지
+    <input type="text" name="message" v-model="message" @keyup.enter="sendNotification">
+    <button @click="sendNotification">보내기</button>
   </div>
 </template>
 <script>
@@ -13,12 +16,13 @@ export default {
   name: 'notification',
   data () {
     return {
-      messages: []
+      messages: [],
+      message: ''
     }
   },
   methods: {
     getNotification: function () {
-      this.$sse('http://localhost:8080/notification/getMessage', {
+      this.$sse('http://localhost:8080/notification/getMessage2', {
         format: 'json'
       }).then(sse => {
         msgServer = sse
@@ -29,6 +33,12 @@ export default {
             this.messages.push(data)
           }
         })
+      })
+    },
+    sendNotification: function () {
+      this.$http.post('/notification', {
+        message: this.message,
+        userId: 'sendUserId'
       })
     },
     isExist: function (message) {
