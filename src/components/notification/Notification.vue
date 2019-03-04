@@ -26,9 +26,7 @@ export default {
         format: 'json'
       }).then(sse => {
         msgServer = sse
-        console.log('sse: ', sse)
         sse.subscribe('', data => {
-          console.log('data : ', data)
           if (!this.isExist(data)) {
             this.messages.push(data)
           }
@@ -42,7 +40,6 @@ export default {
       })
     },
     isExist: function (message) {
-      console.log('data messages : ', this.messages)
       for (var key in this.messages) {
         if (this.messages[key].idString === message.idString) {
           return true
