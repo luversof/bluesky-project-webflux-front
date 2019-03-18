@@ -25,6 +25,12 @@ export default new Router({
       name: "Notification",
       component: () =>
         import(/* webpackChunkName: "notification" */ "./components/notification/Notification.vue")
+    },
+    {
+      path: "/bookkeeping",
+      name: "Bookkeeping",
+      component: () =>
+        import(/* webpackChunkName: "bookkeeping" */ "./components/bookkeeping/Index.vue")
     }
   ]
 });
