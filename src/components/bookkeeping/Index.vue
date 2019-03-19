@@ -11,14 +11,7 @@ export default {
     return {};
   },
   watch: {
-    myBlog: function() {
-      //this.moveMyBookkeepingList();
-    }
-  },
-  mounted: function() {
-    if (this.myBookkeeping === null) {
-      this.getMyBookkeeping();
-    } else {
+    myBookkeeping: function() {
       //this.moveMyBookkeepingList();
     }
   }

@@ -10,7 +10,6 @@ export default {
     ...mapMutations(["setMyBookkeeping", "initBlogArticleStateInfo"]),
     getMyBookkeeping: function() {
       var _this = this;
-      console.log("GETMYBNOOK")
       return this.$http
         .get("/api/bookkeeping/search/myBookkeeping")
         .then(function(response) {
@@ -22,9 +21,7 @@ export default {
     }
   },
   created: function() {
-      console.log("TEST!! ", this.myBookkeeping)
     if (this.myBookkeeping === null) {
-        console.log("TEST!!222 ")
       this.getMyBookkeeping();
     }
   }
