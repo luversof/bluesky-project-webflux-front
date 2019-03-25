@@ -31,6 +31,12 @@ export default new Router({
       name: "Bookkeeping",
       component: () =>
         import(/* webpackChunkName: "bookkeeping" */ "./components/bookkeeping/Index.vue")
+    },
+    {
+      path: "/bookkeeping/:bookkeepingId/List",
+      name: "BookkeepingList",
+      component: () =>
+        import(/* webpackChunkName: "bookkeeping" */ "./components/bookkeeping/List.vue")
     }
   ]
 });

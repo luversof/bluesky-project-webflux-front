@@ -17,6 +17,7 @@ export default {
         });
     },
     moveMyBookkeepingList: function() {
+      console.log("!!!", this.myBookkeeping)
       this.$router.push("/bookkeeping/" + this.myBookkeeping.id + "/list");
     }
   },
