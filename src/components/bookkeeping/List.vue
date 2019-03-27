@@ -1,16 +1,18 @@
 <template>
   <div>
-    ㅁㄴㄻㄴㅇㄹ {{myBookkeeping}}
+    ㅁㄴㄻㄴㅇㄹ {{myBookkeeping}}, {{assetTypes}}
+    <b-button @click="addAssetModal($event.target)">추가</b-button>
     <b-table striped hover :items="myBookkeeping.assetList" :fields="assetFields">
       <template slot="subMenu" slot-scope="row">
         <b-button @click="editAssetModal(row.item, row.index, $event.target)">수정</b-button>
       </template>
     </b-table>
-    <b-modal id="assetModal">
+    <b-modal id="assetModal" @ok="editAsset">
       {{assetModalData}}
-      <b-form @submit.stop.prevent="editAsset">
+      <b-form>
+        <input type="hidden" name="id" :value="assetModalData.id" />
         <b-form-group label-cols-sm="4" label="assetType" label-for="assetType">
-          <b-form-input id="assetType" v-model="assetModalData.assetType"/>
+          <b-form-select id="assetType" :options="assetTypes" required v-model="assetModalData.assetType" />
         </b-form-group>
         <b-form-group label-cols-sm="4" label="name" label-for="name">
           <b-form-input id="name" v-model="assetModalData.name"/>
@@ -35,12 +37,16 @@ export default {
     };
   },
   methods: {
+    addAssetModal(button) {
+      this.assetModalData = { amount: 0 };
+      this.$root.$emit("bv::show::modal", "assetModal", button);
+    },
     editAssetModal(item, index, button) {
       this.assetModalData = item;
       this.$root.$emit("bv::show::modal", "assetModal", button);
     },
     editAsset(event) {
-      alert(JSON.stringify(this.form))
+      alert(JSON.stringify(this.form));
     }
   }
 };
