@@ -4,7 +4,8 @@ export default {
   computed: {
     ...mapState({
       myBookkeeping: state => state.bookkeeping.myBookkeeping,
-      assetTypes: state => state.bookkeeping.assetTypes
+      assetTypes: state => state.bookkeeping.assetTypes,
+      loginInfo: state => state.loginInfo.loginInfo
     })
   },
   methods: {
@@ -27,9 +28,46 @@ export default {
     },
     moveMyBookkeepingList: function () {
       this.$router.push("/bookkeeping/" + this.myBookkeeping.id + "/list");
+    },
+    formState(errorResponse, field) {
+      var state = null
+      if (errorResponse == null) {
+        return state;
+      }
+      var errors = errorResponse.data.errors
+      if (errors.length == 0) {
+        return state
+      }
+      errors.forEach(function (error) {
+        if (error.field === field) {
+          state = false
+        }
+      });
+      return state ? true : state
+    },
+    formInvalidFeedback: function (errorResponse, field) {
+      var message = ""
+      if (errorResponse == null) {
+        return message;
+      }
+      var errors = errorResponse.data.errors
+      if (errors.length == 0) {
+        return message
+      }
+      errors.forEach(function (error) {
+        if (error.field == field) {
+          message = error.defaultMessage
+        }
+      });
+      return message
     }
   },
   created: function () {
+    if (!this.loginInfo.login) {
+      this.$router.push("/error/login");
+      return;
+    }
+
     if (this.myBookkeeping.constructor === Object && Object.entries(this.myBookkeeping).length === 0) {
       this.getMyBookkeeping();
     }

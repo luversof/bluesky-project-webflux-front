@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <BlueskyNavBar/>
+    <bluesky-nav-bar/>
 
     <router-view/>
   </div>

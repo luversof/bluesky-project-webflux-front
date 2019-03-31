@@ -36,7 +36,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 library.add(fas, fab);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
-import DefaultLayout from "./layout/DefaultLayout.vue";
+import DefaultLayout from "@/components/DefaultLayout.vue";
 
 new Vue({
   router,

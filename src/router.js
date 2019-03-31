@@ -21,6 +21,12 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/About.vue")
     },
     {
+      path: "/error/login",
+      name: "ErrorLogin",
+      component: () =>
+        import("./components/error/Login.vue")
+    },
+    {
       path: "/notification",
       name: "Notification",
       component: () =>
@@ -29,20 +35,22 @@ export default new Router({
     {
       path: "/bookkeeping",
       name: "Bookkeeping",
-      component: () =>
-        import(/* webpackChunkName: "bookkeeping" */ "./components/bookkeeping/Index.vue")
-    },
-    {
-      path: "/bookkeeping/create",
-      name: "BookkeepingCreate",
-      component: () =>
-        import(/* webpackChunkName: "bookkeeping" */ "./components/bookkeeping/Create.vue")
-    },
-    {
-      path: "/bookkeeping/:bookkeepingId/List",
-      name: "BookkeepingList",
-      component: () =>
-        import(/* webpackChunkName: "bookkeeping" */ "./components/bookkeeping/List.vue")
+      component: () => import("@/components/bookkeeping/BookkeepingLayout.vue"),
+      children: [
+        {
+          path: "",
+          component: () => import("@/components/bookkeeping/Index.vue")
+        },
+        {
+          path: "create",
+          component: () => import("@/components/bookkeeping/Create.vue")
+        },
+        {
+          path: "/bookkeeping/:bookkeepingId/List",
+          component: () => import("./components/bookkeeping/List.vue")
+        }
+      ]
     }
+    
   ]
 });
