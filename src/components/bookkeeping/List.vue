@@ -43,7 +43,6 @@
 </template>
 <script>
 import bookkeepingMixin from "@/components/bookkeeping/bookkeeping.js";
-import { error } from "util";
 
 export default {
   name: "BookkeepingList",
