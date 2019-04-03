@@ -38,16 +38,29 @@ export default new Router({
       component: () => import("@/components/bookkeeping/BookkeepingLayout.vue"),
       children: [
         {
-          path: "",
+          path: "index",
+          name: "bookkeepingIndex",
           component: () => import("@/components/bookkeeping/Index.vue")
         },
         {
           path: "create",
+          name: "bookkeepingCreate",
           component: () => import("@/components/bookkeeping/Create.vue")
         },
         {
-          path: "/bookkeeping/:bookkeepingId/List",
-          component: () => import("./components/bookkeeping/List.vue")
+          path: "/bookkeeping/:bookkeepingId/entry",
+          name: "bookkeepingEntry",
+          component: () => import("./components/bookkeeping/Entry.vue")
+        },
+        {
+          path: "/bookkeeping/:bookkeepingId/statistics",
+          name: "bookkeepingStatistics",
+          component: () => import("./components/bookkeeping/Statistics.vue")
+        },
+        {
+          path: "/bookkeeping/:bookkeepingId/asset",
+          name: "bookkeepingAsset",
+          component: () => import("./components/bookkeeping/Asset.vue")
         }
       ]
     }

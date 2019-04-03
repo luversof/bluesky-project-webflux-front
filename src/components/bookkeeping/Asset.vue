@@ -1,9 +1,20 @@
 <template>
   <div>
-    <b-button @click="addAssetModal($event.target)">추가</b-button>
-    <b-table striped hover :items="myBookkeeping.assetList" :fields="assetFields">
+    <b-button @click="addAssetModal($event.target)" class="my-1">추가</b-button>
+    <b-table
+      striped
+      hover
+      fixed
+      :busy="Object.entries(myBookkeeping).length === 0"
+      :items="myBookkeeping.assetList"
+      :fields="assetFields"
+    >
+      <div slot="table-busy" class="text-center text-danger my-2">
+        <b-spinner class="align-middle"></b-spinner>
+        <strong>Loading...</strong>
+      </div>
       <template slot="subMenu" slot-scope="row">
-        <b-button @click="editAssetModal(row.item, row.index, $event.target)">수정</b-button>
+        <b-button @click="editAssetModal(row.item, row.index, $event.target)" class="mr-1">수정</b-button>
         <b-button @click="deleteAsset(row.item, row.index, $event.target)">삭제</b-button>
       </template>
     </b-table>
@@ -45,11 +56,16 @@
 import bookkeepingMixin from "@/components/bookkeeping/bookkeeping.js";
 
 export default {
-  name: "BookkeepingList",
+  name: "BookkeepingAsset",
   mixins: [bookkeepingMixin],
   data() {
     return {
-      assetFields: ["assetType", "name", "amount", "subMenu"],
+      assetFields: {
+        assetType: { label: "자산 타입", sortable: true },
+        name: { label: "이름", sortable: true },
+        amount: { label: "금액", sortable: true },
+        subMenu: {label: "관리"}
+      },
       assetModalTitle: "",
       assetModalData: {},
       assetModalErrorResponse: null
@@ -76,13 +92,13 @@ export default {
     addAssetModal(target) {
       this.assetModalData = { amount: 0 };
       this.assetModalErrorResponse = null;
-      this.assetModalTitle = "자산 추가"
+      this.assetModalTitle = "자산 추가";
       this.$root.$emit("bv::show::modal", "assetModal", target);
     },
     editAssetModal(item, index, target) {
       this.assetModalData = item;
       this.assetModalErrorResponse = null;
-      this.assetModalTitle = "자산 수정"
+      this.assetModalTitle = "자산 수정";
       this.$root.$emit("bv::show::modal", "assetModal", target);
     },
     editAsset(event) {

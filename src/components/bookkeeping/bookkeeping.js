@@ -26,8 +26,8 @@ export default {
           _this.setAssetTypes(response.data);
         })
     },
-    moveMyBookkeepingList: function () {
-      this.$router.push("/bookkeeping/" + this.myBookkeeping.id + "/list");
+    moveMyBookkeepingAsset: function () {
+      this.$router.push("/bookkeeping/" + this.myBookkeeping.id + "/asset");
     },
     formState(errorResponse, field) {
       var state = null

@@ -3,10 +3,10 @@
     <b-container fluid>
       <b-row>
         <b-col col lg="2">
-          <b-nav pills vertical>
-            <b-nav-item active>가계부</b-nav-item>
-            <b-nav-item>통계</b-nav-item>
-            <b-nav-item>자산</b-nav-item>
+          <b-nav pills vertical v-if="$route.params.bookkeepingId">
+            <b-nav-item :to="{ name: 'bookkeepingEntry', params: { bookkeepingId: $route.params.bookkeepingId }}" :active="$route.name == 'bookkeepingEntry'">가계부</b-nav-item>
+            <b-nav-item :to="{ name: 'bookkeepingStatistics', params: { bookkeepingId: $route.params.bookkeepingId }}" :active="$route.name == 'bookkeepingStatistics'">통계</b-nav-item>
+            <b-nav-item :to="{ name: 'bookkeepingAsset', params: { bookkeepingId: $route.params.bookkeepingId }}" :active="$route.name == 'bookkeepingAsset'">자산</b-nav-item>
             <b-nav-item disabled>설정</b-nav-item>
           </b-nav>
         </b-col>
@@ -25,6 +25,9 @@ export default {
   mixins: [bookkeepingMixin],
   data() {
     return {};
+  },
+  mounted: function() {
+    console.log(this.$route)
   }
 };
 </script>

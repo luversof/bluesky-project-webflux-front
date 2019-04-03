@@ -12,12 +12,12 @@ export default {
   },
   watch: {
     myBookkeeping: function() {
-      this.moveMyBookkeepingList();
+      this.moveMyBookkeepingAsset();
     }
   },
   mounted: function() {
-    if (this.myBookkeeping !== null) {
-      this.moveMyBookkeepingList();
+    if (Object.entries(this.myBookkeeping).length > 0) {
+      this.moveMyBookkeepingAsset();
     }
   }
 };
