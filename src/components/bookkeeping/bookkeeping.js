@@ -62,7 +62,7 @@ export default {
       return message
     }
   },
-  created: function () {
+  mounted: function () {
     if (!this.loginInfo.login) {
       this.$router.push("/error/login");
       return;

@@ -2,7 +2,6 @@
   <div>
     <b-button @click="addAssetModal($event.target)" class="my-1">추가</b-button>
     <b-table
-      striped
       hover
       fixed
       :busy="Object.entries(myBookkeeping).length === 0"
@@ -128,7 +127,6 @@ export default {
             _this.assetModalErrorResponse = error.response;
           });
       }
-      //alert(JSON.stringify(this.form));
     },
     deleteAsset(item) {
       if (!confirm("해당 자산을 삭제하시겠습니까?")) {
