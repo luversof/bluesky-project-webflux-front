@@ -27,7 +27,7 @@ export default {
     return {};
   },
   mounted: function() {
-    console.log(this.$route)
+    // console.log(this.$route)
   }
 };
 </script>

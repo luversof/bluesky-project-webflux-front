@@ -7,30 +7,28 @@
         <input type="hidden" name="id" :value="entryModalData.id">
         <b-form-group
           label-cols-sm="4"
-          label="assetType"
-          label-for="assetType"
-          :state="entryModalAssetTypeState"
-          :invalid-feedback="entryModalAssetTypeInvalidFeedback"
+          label="assetId"
+          label-for="assetId"
+          :state="entryModalAssetIdState"
+          :invalid-feedback="entryModalAssetIdInvalidFeedback"
         >
           <b-form-select
-            id="assetType"
-            :options="assetTypes"
+            v-if="Object.entries(myBookkeeping).length > 0"
+            id="assetId"
+            :options="assets"
             required
-            v-model="entryModalData.assetType"
-            :state="entryModalAssetTypeState"
+            v-model="entryModalData.assetId"
+            :state="entryModalAssetIdState"
           />
         </b-form-group>
-        <b-form-group
-          label-cols-sm="4"
-          label="name"
-          label-for="name"
-          :state="entryModalNameState"
-          :invalid-feedback="entryModalNameInvalidFeedback"
-        >
-          <b-form-input id="name" v-model="entryModalData.name" :state="entryModalNameState"/>
+        <b-form-group label-cols-sm="4" label="entryDate" label-for="entryDate">
+          <b-form-input id="entryDate" type="date" v-model="entryModalData.entryDate"/>
         </b-form-group>
         <b-form-group label-cols-sm="4" label="amount" label-for="amount">
           <b-form-input id="amount" v-model="entryModalData.amount"/>
+        </b-form-group>
+        <b-form-group label-cols-sm="4" label="memo" label-for="memo">
+          <b-form-input id="memo" v-model="entryModalData.memo"/>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -51,20 +49,24 @@ export default {
   },
   watch: {},
   computed: {
-    entryModalAssetTypeState() {
-      return this.formState(this.entryModalErrorResponse, "assetType");
+    entryModalAssetIdState() {
+      return this.formState(this.entryModalErrorResponse, "assetId");
     },
-    assetModalAssetTypeInvalidFeedback() {
-      return this.formInvalidFeedback(
-        this.assetModalErrorResponse,
-        "assetType"
-      );
+    entryModalAssetIdInvalidFeedback() {
+      return this.formInvalidFeedback(this.assetModalErrorResponse, "assetId");
     },
     entryModalNameState() {
       return this.formState(this.assetModalErrorResponse, "name");
     },
     entryModalNameInvalidFeedback() {
       return this.formInvalidFeedback(this.assetModalErrorResponse, "name");
+    },
+    assets() {
+      var assets = [];
+      this.myBookkeeping.assetList.forEach(function(asset) {
+        assets.push({ text: asset.name, value: asset.id });
+      });
+      return assets;
     }
   },
   methods: {
@@ -73,12 +75,11 @@ export default {
       this.$http
         .get("/api/bookkeeping/entry/search/myEntryList")
         .then(function(response) {
-          console.log(response.data);
           _this.entryList = response.data;
         });
     },
     addEntryModal(target) {
-      this.entryModalData = { amount: 0 };
+      this.entryModalData = { amount: 0, bookkeepingId: this.myBookkeeping.id };
       this.entryModalErrorResponse = null;
       this.entryModalTitle = "추가";
       this.$root.$emit("bv::show::modal", "entryModal", target);
