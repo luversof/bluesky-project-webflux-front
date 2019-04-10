@@ -1,7 +1,12 @@
 <template>
   <div>
-    <b-button @click="addEntryModal($event.target)" class="my-1">추가</b-button>
-    <b-table :items="entryList"></b-table>
+    <b-button class="my-1" @click="addEntryModal($event.target)">추가</b-button>
+    <b-table hover fixed :items="entryList" :fields="entryFields">
+      <template slot="subMenu" slot-scope="row">
+        <b-button class="mr-1" @click="editEntryModal(row.item, row.index, $event.target)">수정</b-button>
+        <b-button @click="deleteEntry(row.item, row.index, $event.target)">삭제</b-button>
+      </template>
+    </b-table>
     <b-modal id="entryModal" @ok="editEntry" :title="entryModalTitle">
       <b-form>
         <input type="hidden" name="id" :value="entryModalData.id">
@@ -22,10 +27,10 @@
           />
         </b-form-group>
         <b-form-group label-cols-sm="4" label="entryDate" label-for="entryDate">
-          <b-form-input id="entryDate" type="date" v-model="entryModalData.entryDate"/>
+          <b-form-input id="entryDate" type="date" v-model="entryModalData.entryDateData"/>
         </b-form-group>
         <b-form-group label-cols-sm="4" label="amount" label-for="amount">
-          <b-form-input id="amount" v-model="entryModalData.amount"/>
+          <b-form-input id="amount" type="number" v-model="entryModalData.amount"/>
         </b-form-group>
         <b-form-group label-cols-sm="4" label="memo" label-for="memo">
           <b-form-input id="memo" v-model="entryModalData.memo"/>
@@ -42,6 +47,13 @@ export default {
   mixins: [bookkeepingMixin],
   data() {
     return {
+      entryFields: {
+        entryDate: { label: "사용일", sortable: true },
+        assetId: { label: "임시표시", sortable: true },
+        amount: { label: "금액", sortable: true },
+        memo: { label: "메모", sortable: true },
+        subMenu: { label: "관리" }
+      },
       entryList: [],
       entryModalTitle: "",
       entryModalData: {}
@@ -94,6 +106,8 @@ export default {
       event.preventDefault();
       // 추가/수정 분기 처리
       var _this = this;
+      this.entryModalData.entryDate =
+        this.entryModalData.entryDateData + "T00:00";
       if (this.entryModalData.id === undefined) {
         // 추가
         this.$http
@@ -117,6 +131,17 @@ export default {
             _this.entryModalErrorResponse = error.response;
           });
       }
+    },
+    deleteEntry(item) {
+      if (!confirm("삭제 하시겠습니까?")) {
+        return;
+      }
+      var _this = this;
+      this.$http
+        .delete("/api/bookkeeping/entry/" + item.id)
+        .then(function(response) {
+          _this.entryList.remove(item);
+        });
     }
   },
   mounted: function() {

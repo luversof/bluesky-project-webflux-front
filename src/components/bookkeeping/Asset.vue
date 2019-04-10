@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button @click="addAssetModal($event.target)" class="my-1">추가</b-button>
+    <b-button class="my-1" @click="addAssetModal($event.target)">추가</b-button>
     <b-table
       hover
       fixed
@@ -13,7 +13,7 @@
         <strong>Loading...</strong>
       </div>
       <template slot="subMenu" slot-scope="row">
-        <b-button @click="editAssetModal(row.item, row.index, $event.target)" class="mr-1">수정</b-button>
+        <b-button class="mr-1" @click="editAssetModal(row.item, row.index, $event.target)">수정</b-button>
         <b-button @click="deleteAsset(row.item, row.index, $event.target)">삭제</b-button>
       </template>
     </b-table>

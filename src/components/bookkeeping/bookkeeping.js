@@ -15,6 +15,9 @@ export default {
       return this.$http
         .get("/api/bookkeeping/search/myBookkeeping")
         .then(function (response) {
+          if (response.data == "") {
+            _this.$router.push({ name: 'bookkeepingCreate' });
+          }
           _this.setMyBookkeeping(response.data);
         });
     },
