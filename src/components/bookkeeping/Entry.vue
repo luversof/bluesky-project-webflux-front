@@ -88,6 +88,9 @@ export default {
         .get("/api/bookkeeping/entry/search/myEntryList")
         .then(function(response) {
           _this.entryList = response.data;
+          _this.entryList.forEach(function(entry) {
+            entry.entryDateData = entry.entryDate.split("T")[0]
+          });
         });
     },
     addEntryModal(target) {
@@ -113,7 +116,7 @@ export default {
         this.$http
           .post("/api/bookkeeping/entry", this.entryModalData)
           .then(function(response) {
-            _this.setMyBookkeeping(response.data);
+            _this.entryList.push(response.data);
             _this.$root.$emit("bv::hide::modal", "entryModal", event.target);
           })
           .catch(function(error) {
@@ -124,7 +127,7 @@ export default {
         this.$http
           .put("/api/bookkeeping/entry", this.entryModalData)
           .then(function(response) {
-            _this.setMyBookkeeping(response.data);
+            response.data.entryDateData = response.data.entryDate.split("T")[0];
             _this.$root.$emit("bv::hide::modal", "entryModal", event.target);
           })
           .catch(function(error) {
@@ -140,7 +143,7 @@ export default {
       this.$http
         .delete("/api/bookkeeping/entry/" + item.id)
         .then(function(response) {
-          _this.entryList.remove(item);
+          _this.entryList = _this.arrayRemove(_this.entryList, item)
         });
     }
   },

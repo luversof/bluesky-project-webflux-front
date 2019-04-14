@@ -63,7 +63,18 @@ export default {
         }
       });
       return message
-    }
+    },
+    /**
+     * 배열에서 해당 아이템 제거
+     * @param {*} arr 
+     * @param {*} value 
+     */
+    arrayRemove: function(arr, value) {
+      return arr.filter(function(ele){
+          return ele != value;
+      });
+   }
+   
   },
   mounted: function () {
     if (!this.loginInfo.login) {
